@@ -25,3 +25,18 @@ const checkUserFromList = async (email, router) => {
 };
 
 
+//Authenticating the user
+
+export const login = async (email, password, router) => {
+    try{
+        //Appwrite login method
+        await account.createEmailSeesion(email, password);
+
+        //calls the filter function
+        await checkUserFromList(email, router);
+    }
+    catch (error){
+        console.log(error);
+        errorMessage("Invalid Credentials!");
+    }
+};
