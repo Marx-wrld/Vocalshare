@@ -40,3 +40,17 @@ export const login = async (email, password, router) => {
         errorMessage("Invalid Credentials!");
     }
 };
+
+//Logging out users with { account.deleteSession() } method
+
+export const logOut = async (router) => {
+    try{
+        await account.deleteSession('current');
+        router.push("/");
+        successMesssage("See you later!");
+    }
+    catch (error){
+        console.log(error);
+        errorMessage('Encountered an error');
+    }
+};
