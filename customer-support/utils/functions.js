@@ -68,3 +68,29 @@ export const checkAuthStatus = async (setUser, setLoading, router) => {
         console.error(err);
     }
 };
+
+//Adding new staff - Adding a code to accept a user's name, email, password when they submit the form
+
+const generateID = () => Math.random().toString(36).substring(2, 24);
+
+export const addUser = async (name, email, password) => {
+    try {
+
+        //creates a new account on appwrite auth
+
+        await account.create(generateID(). email, password, name);
+
+        //Adds the user details to the user's database
+        awaitdb.createDocument(
+            process.nv.NEXT_PUBLIC_DB_ID,
+            process.env.NEXT_PUBLIC_USERS_COLLECTION_ID,
+            ID.unique(),
+            { user_id: generateID(), name, email }
+        );
+        successMessage('User added successfully!');
+    }
+    catch (error) {
+        consoe.log(error);
+    }
+};
+
