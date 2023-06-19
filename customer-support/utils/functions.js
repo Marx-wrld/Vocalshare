@@ -16,7 +16,7 @@ const checkUserFromList = async (email, router) => {
             successMessage('Welcome back!');
             router.push("/staff/dashboard");
         }else{
-            errorMessage("Unauthourized..Kindly, Contact Management.");
+            errorMessage("Unauthourized! Kindly, Contact Management.");
         }
     } catch (error) {
         errorMessage('An error occurred!');
