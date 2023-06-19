@@ -94,3 +94,19 @@ export const addUser = async (name, email, password) => {
     }
 };
 
+//Getting the staff list 
+
+export const getUsers = async (setUsers) => {
+    try {
+        const response = await db.listDocuments(
+            process.env.NEXT_PUBLIC_DB_ID,
+            process.env.NEXT_PUBLIC_USERS_COLLECTION_ID
+        );
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
+
+
+
