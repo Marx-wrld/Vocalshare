@@ -4,7 +4,7 @@ import { ID } from 'appwrite';
 
 //Filtering the users list to verify if the users details exists before granting access to the app
 const checkUserFromList = async (email, router) => {
-    try{
+    try {
         const response = await db.listDocuments(
             process.env.NEXT_PUBLIC_DB_ID,
             process.env.NEXT_PUBLIC_USERS_COLLECTION_ID
@@ -28,7 +28,7 @@ const checkUserFromList = async (email, router) => {
 //Authenticating the user
 
 export const login = async (email, password, router) => {
-    try{
+    try {
         //Appwrite login method
         await account.createEmailSeesion(email, password);
 
@@ -44,7 +44,7 @@ export const login = async (email, password, router) => {
 //Logging out users with { account.deleteSession() } method
 
 export const logOut = async (router) => {
-    try{
+    try {
         await account.deleteSession('current');
         router.push("/");
         successMesssage("See you later!");
@@ -52,5 +52,19 @@ export const logOut = async (router) => {
     catch (error){
         console.log(error);
         errorMessage('Encountered an error');
+    }
+};
+
+//protecting pages from unauthenticated users
+
+export const checkAuthStatus = async (setUser, setLoading, router) => {
+    try {
+        const response = await account.get();
+        setUser(response);
+        setLoading(false);
+    } 
+    catch (err) {
+        router.push("/");
+        console.error(err);
     }
 };
