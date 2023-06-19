@@ -55,7 +55,7 @@ export const logOut = async (router) => {
     }
 };
 
-//protecting pages from unauthenticated users
+//Protecting pages from unauthenticated users
 
 export const checkAuthStatus = async (setUser, setLoading, router) => {
     try {
@@ -108,5 +108,20 @@ export const getUsers = async (setUsers) => {
     }
 };
 
+//Removing users/Staff
 
+export const deleteUser = async (id) => {
+    try {
+        await db.deleteDocument(
+            process.env.NEXT_PUBLIC_DB_ID,
+            process.env.NEXT_PUBLIC_USERS_COLLECTION_ID,
+            id
+        );
+        successMessage('User removed!');
+    }
+    catch (error) {
+        console.log(error);
+        errorMessage('Encountered an error!');
+    }
+};
 
