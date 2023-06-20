@@ -15,7 +15,8 @@ const checkUserFromList = async (email, router) => {
         if (result.length > 0) {
             successMessage('Welcome back!');
             router.push("/staff/dashboard");
-        }else{
+        }
+        else {
             errorMessage("Unauthourized! Kindly, Contact Management.");
         }
     } catch (error) {
@@ -30,7 +31,7 @@ const checkUserFromList = async (email, router) => {
 export const login = async (email, password, router) => {
     try {
         //Appwrite login method
-        await account.createEmailSeesion(email, password);
+        await account.createEmailSession(email, password);
 
         //calls the filter function
         await checkUserFromList(email, router);
@@ -125,3 +126,19 @@ export const deleteUser = async (id) => {
     }
 };
 
+
+//function that accepts all the ticket's details and ensures it works perfectly whether or not the customer uploads a screenshot of the problem they're facing
+
+export const sendTicket = async (name, email, subject, message, attachment) => {
+    if (attachment !== null){
+        //customer attached an image
+        console.log({
+            name, email, subject, message, attachment
+        });
+    } else {
+        //No attachment
+        console.log({
+            name, email, subject, message
+        });
+    }
+};
