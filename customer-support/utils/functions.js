@@ -188,3 +188,19 @@ export const sendTicket = async (name, email, subject, message, attachment) => {
             await createTicket();
         }
     };
+
+    export const updateTicketStatus = async (id, status) => {
+        try {
+            await db.updateDocument(
+                process.env.NEXT_PUBLIC_DB_ID,
+                process.env.NEXT-PUBLIC_TICKETS_COLLECTION_ID,
+                id,
+                {status}
+            );
+            successMessage("Status updated, refresh page!");
+        }
+        catch (error) {
+            console.log(error);
+            errorMessage("Encountered an error!");
+        }
+    };
