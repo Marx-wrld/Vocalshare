@@ -130,15 +130,61 @@ export const deleteUser = async (id) => {
 //function that accepts all the ticket's details and ensures it works perfectly whether or not the customer uploads a screenshot of the problem they're facing
 
 export const sendTicket = async (name, email, subject, message, attachment) => {
+    //the function createTicket accepts all the tickets attributes and creates a new document on the Appwrite cloud
+    //the file_url has a default url value since uploading an attachment is optional
+
+    const createTicket = async (file_url = 'https://www.google.com') => {
+        try{
+            const response = await db.createDocument(
+                process.env.NEXT_PUBLIC_DB_ID,
+                process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID,
+                ID.unique(),
+                {
+                    name,
+                    email, 
+                    subject: message,
+                    status: "open",
+                    //the messages array attribute creates a new structure for the live chatting feature. It converts the content on the customer info into JSON string and adds it to the messages array
+                    messages: [
+                        JSON.stringify({
+                            id: generateID(),
+                            content: message,
+                            admin: false, 
+                            name: "Customer"
+                        }),
+                    ],
+                    attachment_url: file_url,
+                    access_code: generateID()
+                }
+            );
+            //send notifications to the customer
+            console.log("RESPONSE >>>", response);
+            successMessage("Ticket created!")
+        }
+        catch (error){
+            errorMessage("Encountered saving Ticket");
+        }
+    };
+
     if (attachment !== null){
-        //customer attached an image
-        console.log({
-            name, email, subject, message, attachment
-        });
-    } else {
-        //No attachment
-        console.log({
-            name, email, subject, message
-        });
+        //the if else code block checks if the customer uploaded an image. if true, the code uploads the image to the cloud storage, retrieves its URL, and passes it into the createTicket function otherwise the function uses the default value "https://www.google.com" as the attachment_url 
+        try {
+            const response = await storage.createFile(
+                process.env.NEXT_PUBLIC_BUCKET_ID,
+                ID.unique(),
+                attachment
+            );
+            const file_url = `https://cloud.appwrite.io/v1/storage/buckets/${process.env.NEXT_PUBLIC_BUCKET_ID}/files/${response.$id}/view?project=${process.env.NEXT_PUBLIC_PROJECT_ID}&mode=admin`;
+
+            //creates ticket with its image
+            createTicket(file_url);
+        }
+        catch (error){
+            errorMessage("Error uploading the image");
+        }
     }
-};
+        else{
+            //creates ticket even without an image
+            await createTicket();
+        }
+    };
