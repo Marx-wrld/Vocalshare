@@ -188,3 +188,94 @@ export const sendTicket = async (name, email, subject, message, attachment) => {
             await createTicket();
         }
     };
+    
+
+    //function to update the ticket status
+    //updating the status of a ticket using the values "open, in-progress and completed"
+
+    export const updateTicketStatus = async (id, status) => {
+        try {
+            await db.updateDocument(
+                process.env.NEXT_PUBLIC_DB_ID,
+                process.env.NEXT-PUBLIC_TICKETS_COLLECTION_ID,
+                id,
+                {status}
+            );
+            successMessage("Status updated, refresh page!");
+        }
+        catch (error) {
+            console.log(error);
+            errorMessage("Encountered an error!");
+        }
+    };
+
+    //Adding the live-chatting feature to our app.
+    //This page wil require an access code on page load but doesn't require authentication to access the page. We'll run the code snippet below when a user sends a message.
+
+    export const sendMessage = async (text, docId) => {
+        //getting the ticket id 
+        const doc = await db.getDocument(
+            process.env.NEXT_PUBLIC_DB_ID,
+            process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID,
+            docId
+        );
+
+        try {
+            //getting the user's object(admin)
+            const user = await db.updateDocument(
+                process.env.NEXT_PUBLIC_DB_ID,
+                process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID,
+                docId,
+                {
+                    messages: [
+                        ...doc.messages,
+                        JSON.stringify({
+                            id: generateID(),
+                            content: text,
+                            admin: true,
+                            name: user.name,
+                        }),
+                    ],
+                }
+            );
+
+            //message was added successfully section
+            if (result.$id) {
+                successMessage('Message sent!');
+                //emails the customer with access code and chat URL
+            }
+            else {
+                errorMessage("Error try sending your message!");
+            }
+        } 
+        catch (error) {
+            
+            //means the user is a customer
+
+            const result = await db.updateDocument(
+                process.env.NEXT_PUBLIC_DB_ID,
+                process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID,
+                docId,
+            {
+                messages: [
+                    ...doc.messages,
+                    JSON.stringify({
+                        id: generateID(),
+                        content: text,
+                        admin: false,
+                        name: "Customer",
+                    }),
+                ],
+            }
+            );
+            if (result.$id) {
+                successMessage("Message sent!");
+
+                //notify staff via notifications
+
+            } 
+            else{
+                errorMessage("Error! Try resending your message");
+            }
+        }
+    };
