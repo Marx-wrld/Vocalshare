@@ -279,3 +279,31 @@ export const sendTicket = async (name, email, subject, message, attachment) => {
             }
         }
     };
+
+
+    export const getTickets = async(
+        setOpenTickets,
+        setInProgressTickets,
+        setCompletedTickets
+    ) => {
+        try {
+            const response = await db.listDocuments(
+                process.env.NEXT_PUBLIC_DB_ID,
+                process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID
+            );
+            const tickets = response.documents;
+            const openTickets = tickets.filter((ticket) => ticket.status === 'open');
+            const inProgressTickets = tickets.filter(
+                (ticket) => ticket.status === 'in=progress'
+            );
+            const completedTickets = tickets.filter(
+                (ticket) => ticket.status === 'completed'
+            );
+            setCompeletedTickets(completedTickets);
+            setOpenTickets(openTickets);
+            setInProgressTickets(inProgressTickets);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
