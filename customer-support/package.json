@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@novu/node": "^0.16.1",
+    "@novu/notification-center": "^0.16.1",
     "autoprefixer": "10.4.14",
     "next": "13.4.6",
     "postcss": "8.4.24",

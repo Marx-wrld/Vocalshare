@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { account, db, storage } from './appwrite';
 import { ID } from 'appwrite';
 
@@ -226,7 +227,7 @@ export const updateTicketStatus = async (id, status) => {
     try {
         await db.updateDocument(
             process.env.NEXT_PUBLIC_DB_ID,
-            process.env.NEXT - PUBLIC_TICKETS_COLLECTION_ID,
+            process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID,
             id,
             { status }
         );
