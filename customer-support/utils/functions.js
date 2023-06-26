@@ -36,7 +36,7 @@ export const login = async (email, password, router) => {
         //calls the filter function
         await checkUserFromList(email, router);
     }
-    catch (error){
+    catch (error) {
         console.log(error);
         errorMessage("Invalid Credentials!");
     }
@@ -50,7 +50,7 @@ export const logOut = async (router) => {
         router.push("/");
         successMesssage("See you later!");
     }
-    catch (error){
+    catch (error) {
         console.log(error);
         errorMessage('Encountered an error');
     }
@@ -63,7 +63,7 @@ export const checkAuthStatus = async (setUser, setLoading, router) => {
         const response = await account.get();
         setUser(response);
         setLoading(false);
-    } 
+    }
     catch (err) {
         router.push("/");
         console.error(err);
@@ -79,7 +79,7 @@ export const addUser = async (name, email, password) => {
 
         //creates a new account on appwrite auth
 
-        await account.create(generateID(). email, password, name);
+        await account.create(generateID().email, password, name);
 
         //Adds the user details to the user's database
         awaitdb.createDocument(
@@ -134,14 +134,14 @@ export const sendTicket = async (name, email, subject, message, attachment) => {
     //the file_url has a default url value since uploading an attachment is optional
 
     const createTicket = async (file_url = 'https://www.google.com') => {
-        try{
+        try {
             const response = await db.createDocument(
                 process.env.NEXT_PUBLIC_DB_ID,
                 process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID,
                 ID.unique(),
                 {
                     name,
-                    email, 
+                    email,
                     subject: message,
                     status: "open",
                     //the messages array attribute creates a new structure for the live chatting feature. It converts the content on the customer info into JSON string and adds it to the messages array
@@ -149,7 +149,7 @@ export const sendTicket = async (name, email, subject, message, attachment) => {
                         JSON.stringify({
                             id: generateID(),
                             content: message,
-                            admin: false, 
+                            admin: false,
                             name: "Customer"
                         }),
                     ],
@@ -161,12 +161,12 @@ export const sendTicket = async (name, email, subject, message, attachment) => {
             console.log("RESPONSE >>>", response);
             successMessage("Ticket created!")
         }
-        catch (error){
+        catch (error) {
             errorMessage("Encountered saving Ticket");
         }
     };
 
-    if (attachment !== null){
+    if (attachment !== null) {
         //the if else code block checks if the customer uploaded an image. if true, the code uploads the image to the cloud storage, retrieves its URL, and passes it into the createTicket function otherwise the function uses the default value "https://www.google.com" as the attachment_url 
         try {
             const response = await storage.createFile(
@@ -179,83 +179,113 @@ export const sendTicket = async (name, email, subject, message, attachment) => {
             //creates ticket with its image
             createTicket(file_url);
         }
-        catch (error){
+        catch (error) {
             errorMessage("Error uploading the image");
         }
     }
-        else{
-            //creates ticket even without an image
-            await createTicket();
-        }
-    };
-    
+    else {
+        //creates ticket even without an image
+        await createTicket();
+    }
+};
 
-    //function to update the ticket status
-    //updating the status of a ticket using the values "open, in-progress and completed"
 
-    export const updateTicketStatus = async (id, status) => {
-        try {
-            await db.updateDocument(
-                process.env.NEXT_PUBLIC_DB_ID,
-                process.env.NEXT-PUBLIC_TICKETS_COLLECTION_ID,
-                id,
-                {status}
-            );
-            successMessage("Status updated, refresh page!");
-        }
-        catch (error) {
-            console.log(error);
-            errorMessage("Encountered an error!");
-        }
-    };
+//The function below retrieves and groups support tickets based on their status
 
-    //Adding the live-chatting feature to our app.
-    //This page wil require an access code on page load but doesn't require authentication to access the page. We'll run the code snippet below when a user sends a message.
+export const getTickets = async (
+    setOpenTickets,
+    setInProgressTickets,
+    setCompletedTickets
+) => {
+    try {
+        const response = await db.listDocuments(
+            process.env.NEXT_PUBLIC_DB_ID,
+            process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID
+        );
+        const tickets = response.documents;
+        const openTickets = tickets.filter((ticket) => ticket.status === 'open');
+        const inProgressTickets = tickets.filter(
+            (ticket) => ticket.status === 'in=progress'
+        );
+        const completedTickets = tickets.filter(
+            (ticket) => ticket.status === 'completed'
+        );
+        setCompletedTickets(completedTickets);
+        setOpenTickets(openTickets);
+        setInProgressTickets(inProgressTickets);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
 
-    export const sendMessage = async (text, docId) => {
-        //getting the ticket id 
-        const doc = await db.getDocument(
+//function to update the ticket status
+//updating the status of a ticket using the values "open, in-progress and completed"
+
+export const updateTicketStatus = async (id, status) => {
+    try {
+        await db.updateDocument(
+            process.env.NEXT_PUBLIC_DB_ID,
+            process.env.NEXT - PUBLIC_TICKETS_COLLECTION_ID,
+            id,
+            { status }
+        );
+        successMessage("Status updated, refresh page!");
+    }
+    catch (error) {
+        console.log(error);
+        errorMessage("Encountered an error!");
+    }
+};
+
+//Adding the live-chatting feature to our app.
+//This page wil require an access code on page load but doesn't require authentication to access the page. We'll run the code snippet below when a user sends a message.
+//This code will also check if the user is a staff or a customer before adding a message to the messages array
+
+export const sendMessage = async (text, docId) => {
+    //getting the ticket id 
+    const doc = await db.getDocument(
+        process.env.NEXT_PUBLIC_DB_ID,
+        process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID,
+        docId
+    );
+
+    try {
+        //getting the user's object(admin)
+        const user = await db.updateDocument(
             process.env.NEXT_PUBLIC_DB_ID,
             process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID,
-            docId
+            docId,
+            {
+                messages: [
+                    ...doc.messages,
+                    JSON.stringify({
+                        id: generateID(),
+                        content: text,
+                        admin: true,
+                        name: user.name,
+                    }),
+                ],
+            }
         );
 
-        try {
-            //getting the user's object(admin)
-            const user = await db.updateDocument(
-                process.env.NEXT_PUBLIC_DB_ID,
-                process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID,
-                docId,
-                {
-                    messages: [
-                        ...doc.messages,
-                        JSON.stringify({
-                            id: generateID(),
-                            content: text,
-                            admin: true,
-                            name: user.name,
-                        }),
-                    ],
-                }
-            );
+        //message was added successfully section
+        if (result.$id) {
+            successMessage('Message sent!');
+            //emails the customer with access code and chat URL
+        }
+        else {
+            errorMessage("Error try sending your message!");
+        }
+    }
+    catch (error) {
 
-            //message was added successfully section
-            if (result.$id) {
-                successMessage('Message sent!');
-                //emails the customer with access code and chat URL
-            }
-            else {
-                errorMessage("Error try sending your message!");
-            }
-        } 
-        catch (error) {
-            
-            //means the user is a customer
+        //means the user is a customer
 
-            const result = await db.updateDocument(
-                process.env.NEXT_PUBLIC_DB_ID,
-                process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID,
-                docId,
+        const result = await db.updateDocument(
+            process.env.NEXT_PUBLIC_DB_ID,
+            process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID,
+            docId,
             {
                 messages: [
                     ...doc.messages,
@@ -267,43 +297,17 @@ export const sendTicket = async (name, email, subject, message, attachment) => {
                     }),
                 ],
             }
-            );
-            if (result.$id) {
-                successMessage("Message sent!");
+        );
+        if (result.$id) {
+            successMessage("Message sent!");
 
-                //notify staff via notifications
+            //notify staff via notifications
 
-            } 
-            else{
-                errorMessage("Error! Try resending your message");
-            }
         }
-    };
-
-
-    export const getTickets = async(
-        setOpenTickets,
-        setInProgressTickets,
-        setCompletedTickets
-    ) => {
-        try {
-            const response = await db.listDocuments(
-                process.env.NEXT_PUBLIC_DB_ID,
-                process.env.NEXT_PUBLIC_TICKETS_COLLECTION_ID
-            );
-            const tickets = response.documents;
-            const openTickets = tickets.filter((ticket) => ticket.status === 'open');
-            const inProgressTickets = tickets.filter(
-                (ticket) => ticket.status === 'in=progress'
-            );
-            const completedTickets = tickets.filter(
-                (ticket) => ticket.status === 'completed'
-            );
-            setCompeletedTickets(completedTickets);
-            setOpenTickets(openTickets);
-            setInProgressTickets(inProgressTickets);
-        }
-        catch (error) {
-            console.log(error);
+        else {
+            errorMessage("Error! Try resending your message");
         }
     }
+};
+
+
