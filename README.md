@@ -1,2 +1,2 @@
-# Customer-support
-A customer support app that allows users to live chat and also has email notification features. I'll build this project using Next.js, Novu, Appwrite and Email.JS
+# Vocalshare
+A music app, Spotify clone.
