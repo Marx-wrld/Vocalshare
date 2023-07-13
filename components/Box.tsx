@@ -17,7 +17,8 @@ const Box: React.FC<BoxProps> = ({
             w-full
             `, //this is will enable us to reuse the box component and also pass in some addtional classnames
             className
-            )}>
+            )}
+        >
             {children}
         </div>
     )

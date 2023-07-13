@@ -14,7 +14,8 @@ const Library = () => {
                 items-center
                 justify-column
                 px-5
-                pt-4">
+                pt-4"
+            >
                  <div className="
                     inline-flex
                     items-center
