@@ -20,6 +20,7 @@ const SupabaseProvider: React.FC<SupabaseProviderProps> = ({
         <SessionContextProvider supabaseClient={supabaseClient}>
             {children}
         </SessionContextProvider>
+        //we've wrapped our entire app inside supabase provider
     )
 }
 
