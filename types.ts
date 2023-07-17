@@ -10,7 +10,6 @@ export interface UserDetails{
     payment_method?: Stripe.PaymentMethod[Stripe.PaymentMethod.Type];
 }
 
-
 export interface Product {
     id: string;
     active?: boolean;
@@ -31,8 +30,6 @@ export interface Price{
     interval?: Stripe.Price.Recurring.Interval;
     interval_count?: number;
     trial_period_days?: number | null;
-    interval_count?: number;
-    trial_period_days?: number | null;
     metadata?: Stripe.Metadata;
     products?: Product;
 }
@@ -41,7 +38,7 @@ export interface Subscription{
     id: string;
     user_id: string;
     status?: Stripe.Subscription.Status;
-    metadata?: Stripe.MetaData;
+    metadata?: Stripe.Metadata;
     price_id?: string;
     quantity?: string;
     cancel_at_period_end?: boolean;
