@@ -1,6 +1,6 @@
 import { User } from "@supabase/auth-helpers-nextjs";
 import { Subscription, UserDetails } from "@/types";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useSessionContext, useUser as useSupaUser } from "@supabase/auth-helpers-react";
 
 //context type
@@ -36,4 +36,40 @@ export const MyUserContextProvider = (props: Props) => {
 
     const getUserDetails = () => supabase.from('users').select('*').single(); //we're getting the user details from the db 
     const getSubscription = () => supabase.from('subscriptions').select('*, prices(*, products(*))').in('status', ['trialing', 'active']).single(); //we're getting the subscription from the db and we're only getting the ones that are trialing or active
+
+    //creating a useEffect to get the user details and subscription and set the states
+    useEffect(() => {
+        if (user && !isLoadingData && !userDetails && !subscription) { //if we have a user and we're not loading data and we don't have user details and we don't have a subscription then we're going to get the user details and subscription
+            setIsLoadingData(true);
+            Promise.allSettled([getUserDetails(), getSubscription()]).then((results) => {
+                const userDetailsPromise = results[0];
+                const subscriptionPromise = results[1];
+
+                //if the promise is fulfilled then we're going to set the user details and subscription to the data
+                if (userDetailsPromise.status === 'fulfilled') {
+                    setUserDetails(userDetailsPromise.value.data as UserDetails);
+                }
+                
+                if (subscriptionPromise.status === 'fulfilled') {
+                    setSubscription(subscriptionPromise.value.data as Subscription);
+                }
+                //we're done loading data
+
+                setIsLoadingData(false);
+            });
+        } else if (!user && !isLoadingUser && !isLoadingData) { //if we don't have a user and we're not loading the user and we're not loading data then we're going to set the user details and subscription to null
+            setUserDetails(null);
+            setSubscription(null);
+        }
+    }, [user, isLoadingUser]);
+
+    //we're returning the user context provider and we're passing in the user context value
+
+    const value = { //we're passing in the user context value
+        accessToken,
+        user,
+        userDetails,
+        isLoading: isLoadingUser || isLoadingData,
+        subscription
+    }
 }
