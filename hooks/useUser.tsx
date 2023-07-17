@@ -1,6 +1,6 @@
 import { User } from "@supabase/auth-helpers-nextjs";
 import { Subscription, UserDetails } from "@/types";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useSessionContext, useUser as useSupaUser } from "@supabase/auth-helpers-react";
 
 //context type
@@ -72,4 +72,22 @@ export const MyUserContextProvider = (props: Props) => {
         isLoading: isLoadingUser || isLoadingData,
         subscription
     }
+
+    return <UserContext.Provider value={value} {...props} />
+    //we're spreading the props because we want to be able to pass in props to the user context provider
+
+};
+
+//exporting our useUser hook
+
+export const useUser = () => {
+
+    const context = useContext(UserContext); //we're getting the context
+
+    if (context === undefined) { //if the context is undefined then we're going to throw an error
+        throw new Error('useUser must be used within a MyUserContextProvider');
+    }
+
+    return context; //we're returning the context
+
 }
