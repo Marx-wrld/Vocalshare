@@ -31,27 +31,27 @@ const Modal: React.FC<ModalProps> = ({
                             backdrop-blur-sm
                             fixed
                             inset-0
-                        "/>
-                        {/* this is the overlay of the modal */}
+                        "/> 
                         <Dialog.Content 
                                 className="
                                     fixed
-                                    drop-shadow
+                                    drop-shadow-md
                                     border
                                     border-neutral-700
                                     top-[50%]
                                     left-[50%]
-                                    h-full
-                                    md:h-auto
+                                    max-h-full
+                                    h-full 
+                                    md:h-auto                                  
                                     md:max-h-[85vh]
                                     w-full
-                                    md:w-[50vw]
+                                    md:w-[90vw]
                                     md:max-w-[450px]
                                     translate-x-[-50%]
-                                    translate-y-[50%]
+                                    translate-y-[-50%]
                                     rounded-md
                                     bg-neutral-800
-                                    p-[-125px]
+                                    p-[25px]
                                     focus:outline-none
                                 ">
                                     <Dialog.Title
@@ -63,9 +63,41 @@ const Modal: React.FC<ModalProps> = ({
                                             ">
                                       {title}  
                                     </Dialog.Title>
-                                    <Dialog.Description>
+                                    <Dialog.Description 
+                                            className="
+                                                mb-5
+                                                text-sm
+                                                leading-normal
+                                                text-center
+                                    ">
                                         {description}
                                     </Dialog.Description>
+
+                                    <div> {/*this is where we'll put our forms, button and whatever we need*/}
+                                        {children}
+                                    </div>
+
+                                    <Dialog.Close asChild>
+                                        <button 
+                                            className="
+                                            text-neutral-400
+                                            hover:text-white
+                                            absolute
+                                            top-[10px]
+                                            right-[10px]
+                                            inline-flex
+                                            h-[25px]
+                                            w-[25px]
+                                            appearance-none
+                                            items-center
+                                            justify-center
+                                            rounded-full
+                                            focus:outline-none
+                                            "
+                                        >
+                                            <IoMdClose />
+                                        </button>
+                                    </Dialog.Close>
                         </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>
