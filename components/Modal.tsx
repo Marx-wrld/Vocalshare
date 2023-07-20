@@ -35,22 +35,23 @@ const Modal: React.FC<ModalProps> = ({
                         <Dialog.Content 
                                 className="
                                     fixed
-                                    drop-shadow
+                                    drop-shadow-md
                                     border
                                     border-neutral-700
                                     top-[50%]
                                     left-[50%]
-                                    h-full
-                                    md:h-auto
+                                    max-h-full
+                                    h-full 
+                                    md:h-auto                                  
                                     md:max-h-[85vh]
                                     w-full
-                                    md:w-[50vw]
+                                    md:w-[90vw]
                                     md:max-w-[450px]
                                     translate-x-[-50%]
-                                    translate-y-[50%]
+                                    translate-y-[-50%]
                                     rounded-md
                                     bg-neutral-800
-                                    p-[-125px]
+                                    p-[25px]
                                     focus:outline-none
                                 ">
                                     <Dialog.Title

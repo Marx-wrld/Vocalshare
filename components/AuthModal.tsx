@@ -2,8 +2,9 @@
 
 import { useSessionContext, useSupabaseClient } from "@supabase/auth-helpers-react";
 import Modal from "./Modal";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
 
 const AuthModal = () => { // we'll use this component to render the login and register forms
 
@@ -17,7 +18,11 @@ const AuthModal = () => { // we'll use this component to render the login and re
                 isOpen
                 onChange={() => {}}        
         >
-           <Auth supabaseClient={supabaseClient} />        
+           <Auth supabaseClient={supabaseClient} 
+           appearance={{
+            theme: ThemeSupa
+           }}
+           />        
         </Modal>
      );
 }

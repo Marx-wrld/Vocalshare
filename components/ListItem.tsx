@@ -49,7 +49,11 @@ const ListItem: React.FC<ListItemProps> = ({
                        fill
                 />
             </div>
-           <p className="font-medium truncate py-5">  
+           <p className="
+                font-medium 
+                truncate 
+                py-5"
+            >  
             {name} 
            </p>
            <div className="

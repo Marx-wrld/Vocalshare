@@ -58,12 +58,12 @@ const Header: React.FC<HeaderProps> = ({
                    transition
                 "
               >
-                <RxCaretLeft className="text-white" size={35}/>
+                <RxCaretLeft className="text-white" size={35} />
               </button>
 
               <button
                 onClick={() => router.forward()}
-              className="
+                 className="
                    rounded-full
                    bg-black
                    flex
@@ -108,7 +108,8 @@ const Header: React.FC<HeaderProps> = ({
                 justify-between
                 items-center
                 gap-x-4
-                ">
+                "
+            >
                   <>
                     <div>
                       <Button 
