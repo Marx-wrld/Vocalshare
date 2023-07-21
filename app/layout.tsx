@@ -5,6 +5,7 @@ import Sidebar from '@/components/Sidebar'
 import SupabaseProvider from '@/providers/SupabaseProvider'
 import UserProvider from '@/providers/UserProvider'
 import ModelProvider from '@/providers/ModalProvider'
+import ToasterProvider from '@/providers/ToasterProvider'
 
 const font = Figtree({ subsets: ['latin'] })
 
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
+        <ToasterProvider />
         <SupabaseProvider> {/* this is where the supabase provider goes and we now have access to the client supabase inside our application */}
         <UserProvider> {/*this is where the user provider goes and we now have access to the user inside our application*/}
         <ModelProvider />

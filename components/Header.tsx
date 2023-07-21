@@ -11,6 +11,7 @@ import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { FaUserAlt } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -35,7 +36,10 @@ const Header: React.FC<HeaderProps> = ({
     router.refresh();
 
     if (error) {
-      console.log(error);
+      //we can use the toaster here instead of console.log(error); to show the error or logout success message
+      toast.error(error.message); 
+    } else{
+      toast.success("Logout successful");
     }
   }
 
