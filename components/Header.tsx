@@ -10,6 +10,7 @@ import Button from "./Button";
 import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { FaUserAlt } from "react-icons/fa";
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -143,7 +144,10 @@ const Header: React.FC<HeaderProps> = ({
                     Logout
                   </Button>
                   
-                  <Button>
+                  <Button 
+                        onClick={() => router.push(/account)}
+                        className="bg-white"
+                  >
                     <FaUserAlt />
                   </Button>
                   
