@@ -1,4 +1,4 @@
-//creating our model component using radix headless UI
+//creating our modal component using radix headless UI
 import * as Dialog from "@radix-ui/react-dialog";
 import { IoMdClose } from "react-icons/io";
 
