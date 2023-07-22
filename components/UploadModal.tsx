@@ -16,12 +16,12 @@ const UploadModal = () => {
 
     return ( 
         <Modal
-            title="Upload content"
-            description="Upload modal description"
+            title="Add a song"
+            description="Upload mp3 file"
             isOpen={uploadModal.isOpen}
             onChange={onChange}
         >
-            Upload content
+            Form
         </Modal>
      );
 }
