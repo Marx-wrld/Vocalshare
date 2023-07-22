@@ -47,6 +47,7 @@ const UploadModal = () => {
         >
             <form 
                 onSubmit={handleSubmit(onSubmit)} //gets the form data from useForm hook
+                className='flex flex-col gap-y-4'
             >
                 <Input 
                     id="title"
@@ -54,6 +55,27 @@ const UploadModal = () => {
                     {...register("title", {required: true})} //spreads a bunch of props and attributes that we need for this input e.g - onChange, onBlur
                     placeholder="Song title"
                 />
+
+                <Input 
+                    id="author"
+                    disabled={isLoading}
+                    {...register("author", {required: true})}
+                    placeholder="Song author"
+                />
+
+                <div>
+                    <div className="pb-1">
+                        Select a song file
+                    </div>
+                    <Input 
+                        id="song"
+                        type="file"
+                        disabled={isLoading}
+                        accept=".mp3"
+                        {...register("song", {required: true})}  
+                      />
+                </div>
+                
             </form>
         </Modal>
      );
