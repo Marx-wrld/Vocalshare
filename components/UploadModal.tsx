@@ -5,12 +5,21 @@ import Modal from './Modal';
 import useUploadModal from "@/hooks/useUploadModal";
 import { useState } from 'react';
 import Input from './Input';
+import Button from './Button';
+import toast from 'react-hot-toast';
+import { useUser } from '@/hooks/useUser';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import uniqid from 'uniqid';
 
 const UploadModal = () => {
 
-    const [isLoading, setIsLoading] = useState();
+    const [isLoading, setIsLoading] = useState(false);
 
     const uploadModal = useUploadModal(); //We don't want our upload Modal content to always remain open on the screen 
+    
+    const { user } = useUser();
+
+    const supabaseClient = useSupabaseClient();
     
     const {
         register,
@@ -35,7 +44,49 @@ const UploadModal = () => {
     };
 
     const onSubmit: SubmitHandler<FieldValues> = async (values) => { //values will be the form data
-        //Upload to supabase
+        try {
+            setIsLoading(true);
+            
+            //extracting our image and song files
+            const imageFile = values.image?.[0];
+            const songFile = values.song?.[0];
+
+            if(!imageFile || !songFile || !user){
+                toast.error("Missing fields");
+                return; //returns everything after error has been displayed
+            }
+
+            const uniqueID = uniqid(); //helps us to safely upload our songs
+
+            //Upload songs
+
+            const {
+                data: songData, 
+                error: songError,
+                //extracting data and error then remapping them to songData and songError, because we'll have multiple data and errors and we'll have to remap them so that they are functional
+            } = await supabaseClient
+                .storage,
+                .from('songs') //starting with our first bucket, as we have bucket for songs and for images
+                .upload(`song-${values.title}-${uniqueID}`, songFile, {
+                    cacheControl: '3600',
+                    upsert: false
+                });
+
+                if(songError) {
+                    setIsLoading(false);
+                    return toast.error('Failed song upload');
+                }
+
+                //Upload images
+        } 
+        
+        catch (error) {
+            toast.error("Something went wrong");
+        } 
+        
+        finally {
+            setIsLoading(false);
+        }
     }
 
     return ( 
@@ -89,6 +140,12 @@ const UploadModal = () => {
                       />
                 </div>
                 
+                <Button
+                    disabled={isLoading}
+                    type="submit" 
+                >
+                    Create
+                </Button>
                 
             </form>
         </Modal>
