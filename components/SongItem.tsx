@@ -2,6 +2,7 @@
 
 import useLoadImage from "@/hooks/useLoadImage";
 import { Song } from "@/types";
+import Image from "next/image";
 
 interface SongItemProps {
     data: Song;
@@ -34,7 +35,21 @@ const SongItem:React.FC<SongItemProps> = ({
                 transition
                 p-3
         ">
-            Song Item
+            <div className="
+                    relative
+                    aspect-square
+                    w-full
+                    h-full
+                    rounded-md
+                    overflow-hidden
+            ">
+                <Image 
+                    className="object-cover"
+                    src={imagePath || "/images/liked.png"}
+                    fill
+                    alt="Image"
+                />
+            </div>
         </div>
      );
 } 
