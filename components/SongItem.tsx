@@ -17,10 +17,26 @@ const SongItem:React.FC<SongItemProps> = ({
     const imagePath = useLoadImage(data);
 
     return ( 
-        <div>
+        <div 
+            onClick={() => onClick(data.id)}
+            className="
+                relative
+                group
+                flex
+                items-center
+                justify-center
+                rounded-md
+                overflow-hidden
+                gap-x-4
+                bg-neutral-400/5
+                cursor-pointer
+                hover:bg-neutral-400/10
+                transition
+                p-3
+        ">
             Song Item
         </div>
      );
-}
+} 
  
 export default SongItem;
