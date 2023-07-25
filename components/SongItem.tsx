@@ -59,7 +59,7 @@ const SongItem:React.FC<SongItemProps> = ({
                     pt-4
                     gap-y-1
             ">
-                <p className="font-semibold truncate w-full"> {/*className="font-semibold truncate w-full"*/}
+                <p> {/*className="font-semibold truncate w-full"*/}
                     {data.title}
                 </p>
                 <p className="
