@@ -39,7 +39,10 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
                     //Using backticks so that I can collapse my classes
                 )}>
                 <Icon size={26} />
-                <p className="truncate w-full">{label}</p>
+                <p className="
+                    truncate 
+                    w-full
+                ">{label}</p>
             </Link>
         </div>
     )
