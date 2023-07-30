@@ -25,7 +25,7 @@ export default async function Home() {
                     text-3xl
                     font-semibold
                 ">
-                  Welcome back
+                  Welcome back!
                 </h1>
                 <div className="
                       grid
@@ -38,7 +38,7 @@ export default async function Home() {
                   <ListItem 
                       image="/images/liked.png" 
                       name="Liked songs" 
-                      href="Liked"
+                      href="liked"
                   />
                 </div>
               </div>
