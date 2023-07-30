@@ -9,6 +9,8 @@ interface SearchProps{
     }
 };
 
+export const revalidate = 0; //to prevent caching of this page
+
 const Search =  async ({ searchParams }: SearchProps) => {
     const songs = await getSongsByTitle(searchParams.title);
 
