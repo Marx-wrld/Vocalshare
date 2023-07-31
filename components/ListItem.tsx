@@ -34,7 +34,7 @@ const ListItem: React.FC<ListItemProps> = ({
                 overflow-hidden
                 gap-x-4
                 bg-neutral-100/10
-                hover:bg-neutral-100/10
+                hover:bg-neutral-100/20
                 transition
                 pr-4
         ">
@@ -63,9 +63,10 @@ const ListItem: React.FC<ListItemProps> = ({
                 rounded-full
                 flex
                 items-center
+                justify-center
                 bg-green-500
                 p-4
-                drop-shadow
+                drop-shadow-md
                 right-5 
                 group-hover:opacity-100
                 hover:scale-110
