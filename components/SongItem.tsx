@@ -25,6 +25,7 @@ const SongItem:React.FC<SongItemProps> = ({
                 relative
                 group
                 flex
+                flex-col
                 items-center
                 justify-center
                 rounded-md
@@ -59,7 +60,7 @@ const SongItem:React.FC<SongItemProps> = ({
                     pt-4
                     gap-y-1
             ">
-                <p> {/*className="font-semibold truncate w-full"*/}
+                <p className="font-semibold truncate w-full">
                     {data.title}
                 </p>
                 <p className="

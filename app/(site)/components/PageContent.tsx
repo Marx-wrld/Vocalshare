@@ -34,7 +34,7 @@ const PageContent: React.FC<PageContentProps> = ({
                 gap-4
                 mt-4
         ">
-            {/* Iterating our songs */}
+            {/* Iterating over our songs */}
             {songs.map((item) => (
                 <SongItem 
                     key={item.id}
