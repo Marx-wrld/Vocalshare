@@ -8,7 +8,6 @@ interface PlayerStore {
     reset: () => void;
 }
 
-
 //creating our playlist
 
 const usePlayer = create<PlayerStore>((set) => ({
