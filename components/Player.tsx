@@ -12,7 +12,7 @@ const Player = () => {
     //creating a hook to load the song
 
     const songUrl = useLoadSongUrl(song!);
-
+ 
     //if no song, url or player
     //This is basically a protection that we don't want to load the player if we don't have the song 
     if (!song || !songUrl || !player.activeId){
