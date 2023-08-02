@@ -3,6 +3,7 @@
 import useGetSongById from "@/hooks/useGetSongById";
 import useLoadSongUrl from "@/hooks/useLoadSongUrl";
 import usePlayer from "@/hooks/usePlayer";
+import PlayerContent from "./PlayerContent";
 
 const Player = () => {
     //fetching the song using the id assigned in player store as an activeId
@@ -30,7 +31,11 @@ const Player = () => {
                 h-[80px]
                 px-4
         ">
-            Player
+            <PlayerContent 
+                key={songUrl} //we'll be using playlist and we want to enable users to skip to the next song."Whenever the key attribute changes it completely destroys the element that was using it and rerenders a completely new element"The hook that we're using does not support dynamic and modular url changes
+                song={song}
+                songUrl={songUrl}    
+            />
         </div>
      );
 }
