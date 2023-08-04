@@ -24,7 +24,7 @@ const Player = () => {
     return ( 
         <div className="
                 fixed
-                button-0
+                bottom-0
                 bg-black
                 w-full
                 py-2
