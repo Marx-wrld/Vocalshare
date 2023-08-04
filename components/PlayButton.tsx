@@ -17,7 +17,7 @@ const PlayButton = () => {
                  group-hover:translate-y-0
                  hover:scale-110   
         ">
-            <FaPlay className="text-black"/>
+            <FaPlay className="text-black" />
         </button>
      );
 }

@@ -47,6 +47,7 @@ const ListItem: React.FC<ListItemProps> = ({
                        alt="Image"
                        className="object-cover" 
                        fill
+                       //sizes="auto"
                 />
             </div>
            <p className="
