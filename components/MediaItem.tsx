@@ -40,7 +40,7 @@ const MediaItem: React.FC<MediaItemProps> = ({
              "
         >
             <div
-                className="
+                className=" 
                     relative
                     rounded-md
                     min-h-[48px]

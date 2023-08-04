@@ -27,7 +27,7 @@ const getSongsByUserId =  async(): Promise<Song[]> => {
         .eq('user_id', sessionData.session?.user.id)
         .order('created_at', { ascending: false })
 
-    //checking if their was an error
+    //checking if their is an error
     if (error) {
         console.log(error.message);
     }

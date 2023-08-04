@@ -18,6 +18,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     children,
     songs
 }) => {
+    
     const pathname = usePathname();
 
     const routes = useMemo(() => [
