@@ -34,8 +34,17 @@ export const MyUserContextProvider = (props: Props) => {
     const [userDetails, setUserDetails] = useState<UserDetails | null>(null); //state for user details
     const [subscription, setSubscription] = useState<Subscription | null>(null); //state for subscription
 
-    const getUserDetails = () => supabase.from('users').select('*').single(); //we're getting the user details from the db 
-    const getSubscription = () => supabase.from('subscriptions').select('*, prices(*, products(*))').in('status', ['trialing', 'active']).single(); //we're getting the subscription from the db and we're only getting the ones that are trialing or active
+    const getUserDetails = () => 
+        supabase
+            .from('users')
+            .select('*')
+            .single(); //we're getting the user details from the db 
+    const getSubscription = () => 
+        supabase
+            .from('subscriptions')
+            .select('*, prices(*, products(*))')
+            .in('status', ['trialing', 'active'])
+            .single(); //we're getting the subscription from the db and we're only getting the ones that are trialing or active
 
     //creating a useEffect to get the user details and subscription and set the states
     useEffect(() => {
