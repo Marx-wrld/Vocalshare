@@ -40,7 +40,7 @@ const MediaItem: React.FC<MediaItemProps> = ({
              "
         >
             <div
-                className="
+                className=" 
                     relative
                     rounded-md
                     min-h-[48px]
@@ -51,6 +51,7 @@ const MediaItem: React.FC<MediaItemProps> = ({
                 <Image 
                     className="object-cover"
                     fill
+                    //sizes="auto"
                     src={imageUrl || 'images/liked.png'}
                     alt="Media Item"
                 />

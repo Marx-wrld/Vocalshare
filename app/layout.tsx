@@ -4,10 +4,10 @@ import { Figtree } from 'next/font/google'
 import Sidebar from '@/components/Sidebar'
 import SupabaseProvider from '@/providers/SupabaseProvider'
 import UserProvider from '@/providers/UserProvider'
-import ModelProvider from '@/providers/ModalProvider'
 import ToasterProvider from '@/providers/ToasterProvider'
 import getSongsByUserId from '@/actions/getSongsByUserId'
 import Player from '@/components/Player'
+import ModalProvider from '@/providers/ModalProvider'
 
 const font = Figtree({ subsets: ['latin'] })
 
@@ -32,7 +32,7 @@ export default async function RootLayout({
         <ToasterProvider />
         <SupabaseProvider> {/* this is where the supabase provider goes and we now have access to the client supabase inside our application */}
         <UserProvider> {/*this is where the user provider goes and we now have access to the user inside our application*/}
-        <ModelProvider />
+        <ModalProvider />
         <Sidebar songs={userSongs}>
           {children} {/* this is where the main content goes */}
         </Sidebar>
@@ -42,4 +42,4 @@ export default async function RootLayout({
       </body>
     </html>
   )
-}
+};

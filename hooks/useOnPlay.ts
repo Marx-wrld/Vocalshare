@@ -11,7 +11,7 @@ const useOnPlay = (songs: Song[]) => {
     const onPlay = (id: string) => { 
 
         //if there's no user and its neccessary to pass the authModal.onOpen function so that even the not logged in users can play music
-        if(!user){
+        if (!user){
             return authModal.onOpen();
         }
 

@@ -22,7 +22,7 @@ const getLikedSongs =  async(): Promise<Song[]> => {
         .from('liked_songs')
         .select('*, songs(*)') //our key (songs) has a relation to public songs Id
         .eq('user_id', session?.user?.id) //the ones we're selecting should be equal to user_id and the session user?.id
-        .order('created_at', { ascending: false })
+        .order('created_at', { ascending: false });
 
     if (error) {
         console.log(error);

@@ -29,7 +29,7 @@ const LikedContent: React.FC<LikedContentProps> = ({
 
     //creating a view in case their are no liked songs
 
-    if(songs.length === 0) {
+    if (songs.length === 0) {
         return (
             <div className="
                     flex
