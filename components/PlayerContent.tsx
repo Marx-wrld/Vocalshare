@@ -7,6 +7,8 @@ import { BsPauseFill, BsPlayFill } from "react-icons/bs"
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import { HiSpeakerXMark, HiSpeakerWave } from "react-icons/hi2";
 import Slider from "./Slider";
+import usePlayer from "@/hooks/usePlayer";
+import { useState } from "react";
 
 interface PlayerContentProps {
     song: Song;
@@ -17,9 +19,58 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     song,
     songUrl
 }) => {
-    
+
+    const player = usePlayer();
+    const [volume, setVolume] = useState(1);
+    const [isPlaying, setIsPlaying] = useState(false);
+
     const Icon = true ? BsPauseFill : BsPlayFill;
-    const VolumeIcon = true ? HiSpeakerXMark : HiSpeakerWave;
+    const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
+
+    //creating our onPlay next function
+    const onPlayNext = () => {
+        //checking if their is an active array of songs to play
+        if (player.ids.length === 0) {
+            return; //breaking the function
+        }
+
+        //else
+        const currentIndex = player.ids.findIndex((id) => id === player.activeId);
+        
+        //next song to play
+        const nextSong = player.ids[currentIndex + 1];
+
+        //checking if their is a next song to play
+        //if our song is the last in the playlist we'll rest the playlist so that the first song is played
+        if (!nextSong){
+            return player.setId(player.ids[0]);
+        }
+        
+        //otherwise
+        player.setId(nextSong);
+    }
+
+    const onPlayPrevious = () => {
+        //checking if their is an active array of songs to play
+        if (player.ids.length === 0) {
+            return; //breaking the function
+        }
+
+        //else
+        const currentIndex = player.ids.findIndex((id) => id === player.activeId);
+        
+        //previous song to play
+        const previousSong = player.ids[currentIndex - 1];
+
+        //checking if their is a previous song to play
+        //This is going to help us to play the last song in the playlist
+        if (!previousSong){
+            return player.setId(player.ids[player.ids.length - 1]);
+        }
+        
+        //otherwise
+        player.setId(previousSong);
+    }
 
     return ( 
         <div className="
@@ -103,7 +154,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                     <Icon size={30} className="text-black" />
                 </div>
                 <AiFillStepForward 
-                    onClick={() => {}}
+                    onClick={onPlayNext}
                     size={30}
                     className="
                         text-neutral-400
