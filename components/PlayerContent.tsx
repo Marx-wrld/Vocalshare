@@ -8,7 +8,7 @@ import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import { HiSpeakerXMark, HiSpeakerWave } from "react-icons/hi2";
 import Slider from "./Slider";
 import usePlayer from "@/hooks/usePlayer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSound from "use-sound";
 
 interface PlayerContentProps {
@@ -49,7 +49,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         
         //otherwise
         player.setId(nextSong);
-    }
+    };
 
     const onPlayPrevious = () => {
         //checking if their is an active array of songs to play
@@ -71,8 +71,8 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         
         //otherwise
         player.setId(previousSong);
-    }
-
+    };
+    
     const [play, { pause, sound }] = useSound(
         songUrl,
         {
@@ -85,7 +85,35 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
             onpause: () => setIsPlaying(false),
             format: ['mp3']
         }
-    )
+    );
+
+    //creating a useEffect that automatically plays the song when the player component loads
+    useEffect(() => {
+        sound?.play();
+
+        return () => {
+            sound?.unload();
+        }
+    }, [sound]);
+
+    const handlePlay = () => {
+        //if we're not playing then go ahead and play the song
+        if (!isPlaying){
+            play();
+        }
+        else {
+            pause();
+        }
+    };
+
+    const toggleMute = () => { // toggle muted state of the player 
+        if (volume === 0) {
+            setVolume(1);
+        } 
+        else {
+            setVolume(0);
+        }
+    };
 
     return ( 
         <div className="
@@ -194,7 +222,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                         w-[120px]
                 ">
                     <VolumeIcon 
-                        onClick={() => {}}
+                        onClick={toggleMute}
                         className="cursor-pointer"
                         size={34}
                     />
