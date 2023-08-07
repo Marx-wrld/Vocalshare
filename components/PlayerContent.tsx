@@ -145,7 +145,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                     items-center
             ">
                 <div 
-                    onClick={() => {}}
+                    onClick={handlePlay}
                     className="
                         h-10
                         w-10
@@ -181,7 +181,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                             transition   
                         "
                 />
-                <div onClick={() => {}}
+                <div onClick={handlePlay}
                     className="
                         flex
                         items-center
@@ -226,7 +226,11 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                         className="cursor-pointer"
                         size={34}
                     />
-                    <Slider />
+                    <Slider 
+                    //Props for our slider
+                        value={volume}
+                        onChange={(value) => setVolume(value)}
+                    />
                 </div>
             </div>
         </div>
