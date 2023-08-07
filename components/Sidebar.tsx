@@ -8,6 +8,8 @@ import Box from "./Box";
 import SidebarItem from "./SidebarItem";
 import Library from "./Library";
 import { Song } from "@/types";
+import usePlayer from "@/hooks/usePlayer";
+import { twMerge } from "tailwind-merge";
 
 interface SidebarProps {
     children: React.ReactNode;
@@ -19,6 +21,8 @@ const Sidebar: React.FC<SidebarProps> = ({
     songs
 }) => {
     
+    const player = usePlayer();
+
     const pathname = usePathname();
 
     const routes = useMemo(() => [
@@ -37,7 +41,14 @@ const Sidebar: React.FC<SidebarProps> = ({
     ], [pathname]); //adding pathname to the list of our dependency arrays
 
     return (
-        <div className="flex h-full">
+        //Making our player class dynamic depending on whether we've opened the player or not, for that we'll use the player hook
+        <div className={twMerge(
+            `
+                flex
+                h-full
+            `, 
+            player.activeId && "h-[calc(100%-80px]"
+        )}>
             <div className="
                 hidden 
                 md:flex
