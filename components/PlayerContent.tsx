@@ -9,6 +9,7 @@ import { HiSpeakerXMark, HiSpeakerWave } from "react-icons/hi2";
 import Slider from "./Slider";
 import usePlayer from "@/hooks/usePlayer";
 import { useState } from "react";
+import useSound from "use-sound";
 
 interface PlayerContentProps {
     song: Song;
@@ -72,6 +73,20 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         player.setId(previousSong);
     }
 
+    const [play, { pause, sound }] = useSound(
+        songUrl,
+        {
+            volume: volume,
+            onplay: () => setIsPlaying(false),
+            onend: () => {
+                setIsPlaying(false);
+                onPlayNext();
+            },
+            onpause: () => setIsPlaying(false),
+            format: ['mp3']
+        }
+    )
+
     return ( 
         <div className="
                 grid
@@ -129,7 +144,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                     gap-x-6 
             ">
                 <AiFillStepBackward 
-                        onClick={() => {}}
+                        onClick={onPlayPrevious}
                         size={30}
                         className="
                             text-neutral-400
