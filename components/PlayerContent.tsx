@@ -3,7 +3,7 @@
 import { Song } from "@/types";
 import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
-import { BsPauseFill, BsPlayFill } from "react-icons/bs"
+import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import { HiSpeakerXMark, HiSpeakerWave } from "react-icons/hi2";
 import Slider from "./Slider";
@@ -25,7 +25,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     const [volume, setVolume] = useState(1);
     const [isPlaying, setIsPlaying] = useState(false);
 
-    const Icon = true ? BsPauseFill : BsPlayFill;
+    const Icon = isPlaying ? BsPauseFill : BsPlayFill;
     const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
 
     //creating our onPlay next function
@@ -73,16 +73,17 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         player.setId(previousSong);
     };
     
+    //Playing our songs
     const [play, { pause, sound }] = useSound(
-        songUrl,
+        songUrl, //Linked with the key songUrl in Player
         {
             volume: volume,
-            onplay: () => setIsPlaying(false),
+            onplay: () => setIsPlaying(true), //for the play button
             onend: () => {
                 setIsPlaying(false);
                 onPlayNext();
             },
-            onpause: () => setIsPlaying(false),
+            onpause: () => setIsPlaying(false), //for the pause button
             format: ['mp3']
         }
     );
@@ -91,7 +92,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     useEffect(() => {
         sound?.play();
 
-        return () => {
+        return() => {
             sound?.unload();
         }
     }, [sound]);
@@ -106,7 +107,8 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         }
     };
 
-    const toggleMute = () => { // toggle muted state of the player 
+    const toggleMute = () => { // toggle muted state of the player
+
         if (volume === 0) {
             setVolume(1);
         } 
