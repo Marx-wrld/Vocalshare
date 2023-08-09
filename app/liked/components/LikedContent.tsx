@@ -2,6 +2,7 @@
 
 import LikeButton from "@/components/LikeButton";
 import MediaItem from "@/components/MediaItem";
+import useOnPlay from "@/hooks/useOnPlay";
 import { useUser } from "@/hooks/useUser";
 import { Song } from "@/types";
 import { useRouter } from "next/navigation";
@@ -18,14 +19,15 @@ const LikedContent: React.FC<LikedContentProps> = ({
     const router = useRouter(); //using this to push our url
     const { isLoading, user } = useUser();
 
+    const onPlay = useOnPlay(songs); //creates a playlist out of the currently playing songs
 
     //ensuring that only authenticated users can access the page /liked
 
     useEffect(() => {
-        if(!isLoading && user){
+        if(!isLoading && !user){
             router.replace('/');
         }
-    }, [isLoading, user, router]);
+    }, [isLoading, user, router]); //this will run only when the isLoading, user, router changes
 
     //creating a view in case their are no liked songs
 
@@ -64,7 +66,7 @@ const LikedContent: React.FC<LikedContentProps> = ({
                 >
                     <div className="flex-1">
                         <MediaItem 
-                            onClick={() => {}}
+                            onClick={(id: string) => onPlay(id)}
                             data={song}
                         />
                     </div>

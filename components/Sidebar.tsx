@@ -47,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 flex
                 h-full
             `, 
-            player.activeId && "h-[calc(100%-80px]"
+            player.activeId && "h-[calc(100%-80px)]" //moves the main content above our player
         )}>
             <div className="
                 hidden 
