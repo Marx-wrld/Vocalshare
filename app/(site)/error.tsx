@@ -1,4 +1,4 @@
-//Adding loading and error handling to our app
+//Adding loading and error handling to our app (getSongs)
 
 "use client";
 
