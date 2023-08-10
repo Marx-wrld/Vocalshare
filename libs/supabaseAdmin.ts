@@ -14,7 +14,7 @@ export const supabaseAdmin = createClient<Database>(
 
 //Configuring our webhook so that when we add a new product in stripe, it will be inserted in the db
 
-export const upsertProductRecord = (product: Stripe.Product) => {
+export const upsertProductRecord = async (product: Stripe.Product) => {
     const productData: Product = {
         id: product.id,
         active: product.active,
@@ -24,5 +24,41 @@ export const upsertProductRecord = (product: Stripe.Product) => {
         metadata: product.metadata
     };
 
+    //upserting our product into supabase
+    const { error } = await supabaseAdmin 
+        .from('products').upsert([productData]);
     
+        //incase of an error throw error
+    if(error){
+        throw error;
+    }
+
+    console.log(`Product inserted/updated successfully: ${product.id}`);
 };
+
+//This second function will be used to insert the price into the db
+
+const upsertPriceRecord = async (price: Stripe.Price) => {
+    const priceData: Price = {
+    id: price.id,
+    product_id: typeof price.product === 'string' ? price.product : '',
+    active: price.active,
+    currency: price.currency,
+    description: price.nickname ?? undefined,
+    type: price.type,
+    unit_amount: price.unit_amount ?? undefined,
+    interval: price.recurring?.interval,
+    interval_count: price.recurring?.interval_count,
+    trial_period_days: price.recurring?.trial_period_days,
+    metadata: price.metadata
+    }
+    const { error } = await supabaseAdmin
+        .from('prices')
+        .upsert([priceData]);
+    if (error) {
+        throw error;
+    }
+    console.log(`Price inserted/updated successfully: ${price.id}`);
+};
+
+//function to create or retrieve a customer
