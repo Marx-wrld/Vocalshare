@@ -23,4 +23,6 @@ export const upsertProductRecord = (product: Stripe.Product) => {
         image: product.images?.[0] ?? null,
         metadata: product.metadata
     };
+
+    
 };
