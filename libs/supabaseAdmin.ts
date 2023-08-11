@@ -14,7 +14,7 @@ export const supabaseAdmin = createClient<Database>(
 
 //Configuring our webhook so that when we add a new product in stripe, it will be inserted in the db
 
-export const upsertProductRecord = async (product: Stripe.Product) => {
+const upsertProductRecord = async (product: Stripe.Product) => {
     const productData: Product = {
         id: product.id,
         active: product.active,
@@ -200,4 +200,13 @@ const manageSubscriptionStatusChange = async (
             subscription.default_payment_method as Stripe.PaymentMethod
         )
     }
+};
+
+//exporting all our functions and data
+
+export {
+    upsertProductRecord,
+    upsertPriceRecord,
+    createOrRetrieveCustomer,
+    manageSubscriptionStatusChange
 }
