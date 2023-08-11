@@ -138,3 +138,66 @@ const copyBillingDetailsToCustomer = async (
 };
 
 //Function to manage subscriptions status changes
+
+const manageSubscriptionStatusChange = async (
+    subscriptionId: string,
+    customerId: string,
+    createAction = false
+) => {
+    const { data: customerData, error: noCustomerError } = await supabaseAdmin
+        .from('customers')
+        .select('id')
+        .eq('stripe_customer_id', customerId)
+        .single();
+    
+    //if we get a no customer error
+    if (noCustomerError) throw noCustomerError;
+
+    //Otherwise we go ahead and extract the id
+    const { id: uuid } = customerData!; //the exclamation mark at the end helps fix any type errors
+
+    //retrieving a subscription from stripe
+    const subscription = await stripe.subscriptions.retrieve(subscriptionId,
+        {
+            expand: ["default_payment_method"]
+        });
+
+    //creating a subscription data that we'll use to update the subscription
+    const subscriptionData: Database["public"]["Tables"]["subscriptions"]["Insert"] = {
+        //stripe webhooks
+        id: subscription.id,
+        user_id: uuid,
+        metadata: subscription.metadata,
+        // @ts-ignore
+        status: subscription.status,
+        price_id: subscription.items.data[0].price.id,
+        // @ts-ignore
+        quantity: subscription.quantity,
+        cancel_at_period_end: subscription.cancel_at_period_end,
+        cancel_at: subscription.cancel_at ? toDateTime(subscription.cancel_at).toISOString() : null,
+        canceled_at: subscription.canceled_at ? toDateTime(subscription.canceled_at).toISOString() : null,
+        current_period_start: toDateTime(subscription.current_period_start).toISOString(),
+        current_period_end: toDateTime(subscription.current_period_end).toISOString(),
+        created: toDateTime(subscription.created).toISOString(),
+        ended_at: subscription.ended_at ? toDateTime(subscription.ended_at).toISOString() : null,
+        trial_start: subscription.trial_start ? toDateTime(subscription.trial_start).toISOString() : null,
+        trial_end: subscription.trial_end ? toDateTime(subscription.trial_end).toISOString() : null,
+    };
+
+    //inserting into the database
+    const { error } = await supabaseAdmin
+        .from('subscriptions')
+        .upsert([subscriptionData]);
+
+    //incase of an error
+    if (error) throw error;
+
+    console.log(`Inserted/Updated subscription [${subscription.id} for ${uuid}]`);
+
+    if (createAction && subscription.default_payment_method && uuid) {
+        await copyBillingDetailsToCustomer(
+            uuid,
+            subscription.default_payment_method as Stripe.PaymentMethod
+        )
+    }
+}
