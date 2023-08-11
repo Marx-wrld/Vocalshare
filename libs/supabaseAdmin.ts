@@ -71,8 +71,70 @@ const createOrRetrieveCustomer = async ({
     uuid: string
 }) => {
     const { data, error } = await supabaseAdmin
-        .from('customers')
-        .select('id, stripe_customer_id')
-        .eq('id', uuid)
-        .single();
-}
+        .from('customers') //table customers
+        .select('id, stripe_customer_id') //finding stripe customer id
+        .eq('id', uuid) // retrieving this id
+        .single(); //retrieving a single record
+
+    //This section happens only if we have no active customer
+
+    //if there's an error or no stripe customer id then we'll go ahead and create one
+    if (error || !data?.stripe_customer_id) {
+        const customerData: { metadata: { supabaseUUID: string }; email?: string } = {
+            metadata: {
+                supabaseUUID: uuid
+            }
+        };
+
+        if (email) customerData.email = email;
+
+        const customer = await stripe.customers.create(customerData);
+        
+        //extracting the error from supabase
+        const { error: supabaseError } = await supabaseAdmin
+            .from('customers')
+            .insert([{ id: uuid, stripe_customer_id: customer.id }])
+
+        //checking if there is a supabase error
+        if (!supabaseError) {
+            throw supabaseError; 
+        }
+
+        console.log(`New customer created and inserted for ${uuid}`)
+        return customer.id;
+    };
+
+    //If we manage to load a customer(if the person was on a plan in the past)
+
+    return data.stripe_customer_id;
+
+};
+
+//Function to copy billing details to customer
+
+const copyBillingDetailsToCustomer = async (
+    uuid: string,
+    payment_method: Stripe.PaymentMethod
+) => {
+    //customer variables
+    const customer = payment_method.customer as string;
+    const { name, phone, address } = payment_method.billing_details;
+
+    if(!name || !phone || !address ) return;
+
+    // @ts-ignore
+    await stripe.customers.update(customer, { name, phone, address });
+
+    const { error } = await supabaseAdmin
+        .from('users')
+        .update({
+            billing_address: { ...address },
+            payment_method: { ...payment_method[payment_method.type] }
+        })
+        .eq('id', uuid);
+    
+    //if there's an error throw error
+    if (error) throw error;
+};
+
+//Function to manage subscriptions status changes
