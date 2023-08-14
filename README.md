@@ -10,4 +10,4 @@ A music service app that gives you access to songs from all over the world.
 
 - Type `stripe trigger payment_intent.succeeded` (2nd terminal) to test the `stripe listen --forward-to localhost:3000/api/webhooks` and check whether it returns a 200 POST response on the 1st terminal.
 
-!While developing your webhook terminal needs to remain active
+<b>While developing your webhook terminal needs to remain active</b>
