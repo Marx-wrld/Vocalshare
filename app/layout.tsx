@@ -25,6 +25,7 @@ export default async function RootLayout({
 }) { 
   
   const userSongs = await getSongsByUserId(); //Now that we have these user songs we'll pass them to our sidebar, which will provide them to our library
+  const products = await getActiveProductsWithPrices();
 
   return (
     <html lang="en">
