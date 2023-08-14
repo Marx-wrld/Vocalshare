@@ -1,8 +1,17 @@
 "use client";
 
+import { ProductWithPrice } from "@/types";
 import Modal from "./Modal";
 
-const SubscribeModal = () => {
+//creating props for products so that we can pass products to the SubscribeModal in ModalProvider
+interface SubscribeModalProps {
+    products: ProductWithPrice[];
+}
+
+
+const SubscribeModal: React.FC<SubscribeModalProps> = ({
+    products
+}) => {
     let content = (
         <div className="text-center">
             No products available

@@ -1,6 +1,6 @@
 //creating an action that will load our songs to the server component 
 
-import { ProductWithPrice, Song } from "@/types";
+import { ProductWithPrice } from "@/types";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/dist/client/components/headers";
 
@@ -11,9 +11,12 @@ const getActiveProductsWithPrices = async (): Promise<ProductWithPrice[]> => {
     });
 
     const { data, error } = await supabase
-        .from('songs')
-        .select('*')
-        .order('created_at', { ascending: false })
+        .from('products')
+        .select('*, prices(*)')
+        .eq('active', true) //choosing only the active ones
+        .eq('prices.active', true) //checking if the price is active
+        .order('metadata->index') //we order them by metadata index
+        .order('unit_amount', { foreignTable: 'prices' }) //we then order them by unit-amount in the foreignTable by prices
 
     if (error) {
         console.log(error);

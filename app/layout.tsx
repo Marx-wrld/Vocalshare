@@ -8,6 +8,7 @@ import ToasterProvider from '@/providers/ToasterProvider'
 import getSongsByUserId from '@/actions/getSongsByUserId'
 import Player from '@/components/Player'
 import ModalProvider from '@/providers/ModalProvider'
+import getActiveProductsWithPrices from '@/actions/getActiveProductsWithPrices'
 
 const font = Figtree({ subsets: ['latin'] })
 
@@ -33,7 +34,7 @@ export default async function RootLayout({
         <ToasterProvider />
         <SupabaseProvider> {/* this is where the supabase provider goes and we now have access to the client supabase inside our application */}
         <UserProvider> {/*this is where the user provider goes and we now have access to the user inside our application*/}
-        <ModalProvider />
+        <ModalProvider products={products}/>
         <Sidebar songs={userSongs}>
           {children} {/* this is where the main content goes */}
         </Sidebar>
