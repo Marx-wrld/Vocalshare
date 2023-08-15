@@ -3,8 +3,17 @@
 import AuthModal from "@/components/AuthModal";
 import { useEffect, useState } from "react";
 import UploadModal  from "@/components/UploadModal";
+import SubscribeModal from "@/components/SubscribeModal";
+import { ProductWithPrice } from "@/types";
 
-const ModalProvider = () => {
+//creating props to accept products when passing ModalProvider in the layout
+interface ModalProviderProps {
+    products: ProductWithPrice[];
+}
+
+const ModalProvider: React.FC<ModalProviderProps> = ({
+    products
+}) => {
     const [isMounted, setIsMounted] = useState(false); 
     
     //since we're doing server side rendering, modals can cause hydration errors, to prevent that, we never want to render a model if we are in server side
@@ -23,6 +32,7 @@ const ModalProvider = () => {
         <>
             <AuthModal />
             <UploadModal />
+            <SubscribeModal products={products}/>
         </>
      );
 }
