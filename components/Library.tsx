@@ -8,6 +8,7 @@ import useUploadModal from "@/hooks/useUploadModal";
 import { Song } from "@/types";
 import MediaItem from "./MediaItem";
 import useOnPlay from "@/hooks/useOnPlay";
+import useSubscribeModal from "@/hooks/useSubscribeModal";
 
 
 interface LibraryProps { 
@@ -18,11 +19,13 @@ const Library: React.FC<LibraryProps> = ({
     songs //extracting the songs 
 }) => {
 
+    const subscribeModal = useSubscribeModal();
+
     const authModal = useAuthModal(); 
 
     const uploadModal = useUploadModal();
 
-    const { user } = useUser();
+    const { user, subscription } = useUser();
 
     const onPlay = useOnPlay(songs); //Passing all songs in our playlist to the onPlay hook
 
@@ -31,7 +34,10 @@ const Library: React.FC<LibraryProps> = ({
        return authModal.onOpen();
 
        }
-       //Will add code to handle subscription after integrating stripe and if no subscription will trigger the subscription modal which we will build
+       // code to handle subscription after integrating stripe and if no subscription will trigger the subscription modal which we will build
+       if (!subscription) {
+        return subscribeModal.onOpen();
+       }
 
        return uploadModal.onOpen();
     };
