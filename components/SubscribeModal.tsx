@@ -63,7 +63,7 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
             const stripe = await getStripe();
             stripe?.redirectToCheckout({ sessionId });
         } catch (error){
-            toast.error((error as Error)?.message);
+           return toast.error((error as Error)?.message);
         } finally{
             setPriceIdLoading(undefined);
         }
@@ -90,7 +90,7 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
                 return product.prices.map((price) => (
                     <Button 
                         key={price.id}
-                        onClick={() =>handleCheckout(price)}
+                        onClick={() => handleCheckout(price)}
                         disabled={isLoading || price.id === priceIdLoading}
                         className="mb-4"
                         >

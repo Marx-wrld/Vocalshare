@@ -45,11 +45,11 @@ export async function POST (
                 metadata
         },
         success_url: `${getUrl()}/account`,
-        cancel_url: `${getUrl()}`
+        cancel_url: `${getUrl()}/`
         });
 
         return NextResponse.json({ sessionId: session.id });
-    } catch (error) {
+    } catch (error: any) {
         console.log(error);
         return new NextResponse('Internal Error', { status: 500 });
     };
