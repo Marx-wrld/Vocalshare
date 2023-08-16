@@ -12,6 +12,7 @@ import { useUser } from "@/hooks/useUser";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { FaUserAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
+import usePlayer from "@/hooks/usePlayer";
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -23,6 +24,7 @@ const Header: React.FC<HeaderProps> = ({
   className
 }) => {
 
+  const player = usePlayer(); //we're getting the player from the context
   const authModal = useAuthModal(); // this will help us trigger our modal, we don't want to keep it just open
   const router = useRouter();
 
@@ -32,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({
 
   const handleLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();
-    //reset any playing songs
+    player.reset(); //(reset any playing songs), Anytime we click logout it shuts down any playing songs
     router.refresh();
 
     if (error) {

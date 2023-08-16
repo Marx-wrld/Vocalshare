@@ -25,7 +25,7 @@ export default async function Home() {
                     text-3xl
                     font-semibold
                 ">
-                  Welcome back
+                 Vocalshare
                 </h1>
                 <div className="
                       grid

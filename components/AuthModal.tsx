@@ -30,10 +30,11 @@ const AuthModal = () => { // we'll use this component to render the login and re
     }
 
     return ( 
-        <Modal  title="Welcome back"
-                description="Sign in to your account to continue"
-                isOpen={isOpen}
-                onChange={onChange}        
+        <Modal  
+               title="Welcome back"
+               description="Sign in to your account to continue"
+               isOpen={isOpen}
+               onChange={onChange}        
         >
            <Auth 
                theme="dark"
