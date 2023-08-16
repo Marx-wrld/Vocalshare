@@ -8,6 +8,7 @@ import { useUser } from "@/hooks/useUser";
 import toast from "react-hot-toast";
 import { postData } from "@/libs/helpers";
 import { getStripe } from "@/libs/stripeClient";
+import useSubscribeModal from "@/hooks/useSubscribeModal";
 
 //creating props for products so that we can pass products to the SubscribeModal in ModalProvider
 interface SubscribeModalProps {
@@ -29,8 +30,16 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
     products
 }) => {
 
+    const subscribeModal = useSubscribeModal();
     const { user, isLoading, subscription } = useUser(); //we're getting the user, isLoading and subscription from the useUser hook
     const [priceIdLoading, setPriceIdLoading] = useState<string>(); //we're setting the priceIdLoading to a string
+
+    const onChange = (open: boolean) => {
+        if(!open) {
+            subscribeModal.onClose();
+        }
+    }
+
     const handleCheckout = async (price: Price) => {
         setPriceIdLoading(price.id); //we're setting the priceIdLoading to the price.id
     
@@ -106,8 +115,8 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
         <Modal 
             title="Only for Premium Users"
             description="Listen to music with Vocalshare Premium"
-            isOpen
-            onChange={() => {}}        
+            isOpen={subscribeModal.isOpen}
+            onChange={onChange}        
         >
             {content}
         </Modal>
