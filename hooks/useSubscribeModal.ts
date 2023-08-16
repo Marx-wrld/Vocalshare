@@ -14,5 +14,4 @@ const useSubscribeModal = create<SubscribeModalStore>((set) => ({
 
 }));
 
-
 export default useSubscribeModal;

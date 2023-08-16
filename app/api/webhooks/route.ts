@@ -71,7 +71,7 @@ export async function POST(
                     if (checkoutSession.mode === 'subscription') {
                         const subscriptionId = checkoutSession.subscription;
                         await manageSubscriptionStatusChange(
-                            subscriptionId as string,checkoutSession.customer as string,
+                            subscriptionId as string, checkoutSession.customer as string,
                             true
                         );
                     }

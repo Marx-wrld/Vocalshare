@@ -28,11 +28,8 @@ const upsertProductRecord = async (product: Stripe.Product) => {
     const { error } = await supabaseAdmin 
         .from('products').upsert([productData]);
     
-        //incase of an error throw error
-    if(error){
-        throw error;
-    }
-
+    //incase of an error throw error
+    if (error) throw error;
     console.log(`Product inserted/updated successfully: ${product.id}`);
 };
 
@@ -51,13 +48,12 @@ const upsertPriceRecord = async (price: Stripe.Price) => {
     interval_count: price.recurring?.interval_count,
     trial_period_days: price.recurring?.trial_period_days,
     metadata: price.metadata
-    }
+    };
+
     const { error } = await supabaseAdmin
         .from('prices')
         .upsert([priceData]);
-    if (error) {
-        throw error;
-    }
+    if (error) throw error;
     console.log(`Price inserted/updated successfully: ${price.id}`);
 };
 
@@ -67,8 +63,8 @@ const createOrRetrieveCustomer = async ({
     email,
     uuid
 }: {
-    email: string,
-    uuid: string
+    email: string;
+    uuid: string;
 }) => {
     const { data, error } = await supabaseAdmin
         .from('customers') //table customers
@@ -93,12 +89,10 @@ const createOrRetrieveCustomer = async ({
         //extracting the error from supabase
         const { error: supabaseError } = await supabaseAdmin
             .from('customers')
-            .insert([{ id: uuid, stripe_customer_id: customer.id }])
+            .insert([{ id: uuid, stripe_customer_id: customer.id }]);
 
         //checking if there is a supabase error
-        if (!supabaseError) {
-            throw supabaseError; 
-        }
+        if (supabaseError) throw supabaseError; 
 
         console.log(`New customer created and inserted for ${uuid}`)
         return customer.id;
@@ -194,12 +188,11 @@ const manageSubscriptionStatusChange = async (
 
     console.log(`Inserted/Updated subscription [${subscription.id} for ${uuid}]`);
 
-    if (createAction && subscription.default_payment_method && uuid) {
+    if (createAction && subscription.default_payment_method && uuid) 
         await copyBillingDetailsToCustomer(
             uuid,
             subscription.default_payment_method as Stripe.PaymentMethod
         )
-    }
 };
 
 //exporting all our functions and data
