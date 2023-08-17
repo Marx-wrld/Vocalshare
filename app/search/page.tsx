@@ -3,13 +3,13 @@ import Header from "@/components/Header";
 import SearchInput from "@/components/SearchInput";
 import SearchContent from "./components/SearchContent";
 
+export const revalidate = 0; //to prevent caching of this page
+
 interface SearchProps{
     searchParams: {
         title: string;
     }
 };
-
-export const revalidate = 0; //to prevent caching of this page
 
 const Search =  async ({ searchParams }: SearchProps) => {
     const songs = await getSongsByTitle(searchParams.title);

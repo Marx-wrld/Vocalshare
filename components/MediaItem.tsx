@@ -54,7 +54,6 @@ const MediaItem: React.FC<MediaItemProps> = ({
                 <Image 
                     className="object-cover"
                     fill
-                    //sizes="auto"
                     src={imageUrl || 'images/liked.png'}
                     alt="Media Item"
                 />
@@ -76,7 +75,7 @@ const MediaItem: React.FC<MediaItemProps> = ({
                     text-sm
                     truncate
                 ">
-                    {data.author}
+                   By {data.author}
                 </p>
             </div>
         </div>

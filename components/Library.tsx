@@ -46,7 +46,7 @@ const Library: React.FC<LibraryProps> = ({
             <div className="
                 flex
                 items-center
-                justify-column
+                justify-between
                 px-5
                 pt-4"
             >

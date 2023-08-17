@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { FaPlay } from "react-icons/fa";
+import useAuthModal from "@/hooks/useAuthModal";
+import { useUser } from "@/hooks/useUser";
 interface ListItemProps {
     image: string;
     name: string;
@@ -16,10 +18,13 @@ const ListItem: React.FC<ListItemProps> = ({
 }) => {
 
     const router = useRouter();
-
+    const authModal = useAuthModal();
+    const { user } = useUser();
     const onClick = () => {
         // Add auth before push - users to be able to login only if authenticated
-        router.push(href);
+        if (!user) {
+            return authModal.onOpen();
+        } 
     }
 
     return ( 
@@ -43,11 +48,11 @@ const ListItem: React.FC<ListItemProps> = ({
                  min-h-[64px]
                  min-w-[64px]
             ">
-                <Image src={image} 
+                <Image 
+                       src={image} 
                        alt="Image"
                        className="object-cover" 
                        fill
-                       //sizes="auto"
                 />
             </div>
            <p className="

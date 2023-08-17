@@ -22,7 +22,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
     const authModal = useAuthModal();
     const { user } = useUser();
 
-    const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState<boolean>(false);
 
     //Adding a useEffect to check whether the song that I'm currently loading has been liked or not
     useEffect(() => {
@@ -95,6 +95,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
                 className="
                   hover:opacity-75
                   transition
+                  cursor-pointer
         ">
             <Icon color={isLiked ? '#22c55e' : 'white'} size={25} />
         </button>
