@@ -8,7 +8,7 @@ export const getUrl = () => {
     let url = 
         process?.env?.NEXT_PUBLIC_SITE_URL ??
         process?.env?.NEXT_PUBLIC_VERCEL_URL ??
-        'https://localhost:3000/';
+        'http://localhost:3000/';
 
     //code to confirm that the url that we passed, just in case we change it includes https
     url = url.includes('http') ? url : `https://${url}`;

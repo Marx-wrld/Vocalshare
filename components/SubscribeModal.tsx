@@ -42,7 +42,6 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
 
     const handleCheckout = async (price: Price) => {
         setPriceIdLoading(price.id); //we're setting the priceIdLoading to the price.id
-    
 
         if (!user){
             setPriceIdLoading(undefined);
@@ -51,7 +50,7 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
 
         if (subscription){
             setPriceIdLoading(undefined);
-            return toast.error("Already subscribed");
+            return toast("Already subscribed");
         }
 
         try{
@@ -61,9 +60,9 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
             });
 
             const stripe = await getStripe();
-            stripe?.redirectToCheckout({ sessionId });
+            stripe?.redirectToCheckout({ sessionId }); //creates a checkout screen for the currently logged in user
         } catch (error){
-           return toast.error((error as Error)?.message);
+           toast.error((error as Error)?.message);
         } finally{
             setPriceIdLoading(undefined);
         }
@@ -102,7 +101,7 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
         )
     }
 
-    //Adding a modal for user is already subscribed
+    //Adding modal for a user already subscribed
     if (subscription){
         content = (
             <div className="text-center">

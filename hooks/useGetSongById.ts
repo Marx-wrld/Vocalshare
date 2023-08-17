@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 const useGetSongById = (id?: string) => {
     const [isLoading, setIsLoading] = useState(false);
     const [song, setSong] = useState<Song | undefined>(undefined);
-    const {supabaseClient} = useSessionContext(); //Both authenticated and unauthenticated users have read access to our page but if we were to allow only authenticated users to have access to our page then we use the above method
+    const { supabaseClient } = useSessionContext(); //Both authenticated and unauthenticated users have read access to our page but if we were to allow only authenticated users to have access to our page then we use the above method
 
     useEffect(() => {
         //checking if id wasn't passed

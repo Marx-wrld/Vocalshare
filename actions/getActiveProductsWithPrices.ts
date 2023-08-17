@@ -19,7 +19,7 @@ const getActiveProductsWithPrices = async (): Promise<ProductWithPrice[]> => {
         .order('unit_amount', { foreignTable: 'prices' }) //we then order them by unit-amount in the foreignTable by prices
 
     if (error) {
-        console.log(error);
+        console.log(error.message);
     }
 
     return (data as any) || [];
