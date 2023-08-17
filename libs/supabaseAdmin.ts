@@ -68,7 +68,7 @@ const createOrRetrieveCustomer = async ({
 }) => {
     const { data, error } = await supabaseAdmin
         .from('customers') //table customers
-        .select('id, stripe_customer_id') //finding stripe customer id
+        .select('stripe_customer_id') //finding stripe customer id
         .eq('id', uuid) // retrieving this id
         .single(); //retrieving a single record
 
@@ -94,7 +94,7 @@ const createOrRetrieveCustomer = async ({
         //checking if there is a supabase error
         if (supabaseError) throw supabaseError; 
 
-        console.log(`New customer created and inserted for ${uuid}`)
+        console.log(`New customer created and inserted for ${uuid}.`)
         return customer.id;
     };
 
@@ -138,6 +138,8 @@ const manageSubscriptionStatusChange = async (
     customerId: string,
     createAction = false
 ) => {
+    
+    //getting customer's UUID from mapping table
     const { data: customerData, error: noCustomerError } = await supabaseAdmin
         .from('customers')
         .select('id')
@@ -192,7 +194,7 @@ const manageSubscriptionStatusChange = async (
         await copyBillingDetailsToCustomer(
             uuid,
             subscription.default_payment_method as Stripe.PaymentMethod
-        )
+        );
 };
 
 //exporting all our functions and data
@@ -202,4 +204,4 @@ export {
     upsertPriceRecord,
     createOrRetrieveCustomer,
     manageSubscriptionStatusChange
-}
+};
