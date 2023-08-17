@@ -16,7 +16,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
     const onPlay = useOnPlay(songs); //creates a playlist out of the currently playing songs
 
     //checking if their are no songs
-    if(songs.length === 0) {
+    if (songs.length === 0) {
         return (
             <div className="
                     flex
@@ -39,10 +39,15 @@ const SearchContent: React.FC<SearchContentProps> = ({
                 w-full
                 px-4
         ">
-            {songs.map((song) => (
+            {songs.map((song: Song) => (
                 <div 
                     key={song.id}
-                    className="flex items-center gap-x-4 w-full"
+                    className="
+                        flex 
+                        items-center 
+                        gap-x-4 
+                        w-full
+                    "
                 >
                     <div className="flex-1">
                         <MediaItem 

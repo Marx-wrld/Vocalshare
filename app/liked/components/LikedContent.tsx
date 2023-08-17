@@ -54,7 +54,7 @@ const LikedContent: React.FC<LikedContentProps> = ({
                 w-full
                 p-6 
         ">
-            {songs.map((song) => (
+            {songs.map((song: any) => (
                 <div 
                     key={song.id}
                      className="

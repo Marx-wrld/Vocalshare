@@ -32,7 +32,6 @@ const Library: React.FC<LibraryProps> = ({
     const onClick = () => {
        if (!user) {
        return authModal.onOpen();
-
        }
        // code to handle subscription after integrating stripe and if no subscription will trigger the subscription modal which we will build
        if (!subscription) {

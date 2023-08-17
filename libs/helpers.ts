@@ -39,7 +39,7 @@ export const postData = async ({ //passing the url and data
     if(!res.ok){
         console.log('Error in POST', { url, data, res });
 
-        throw new Error(res.statusText);
+        throw Error(res.statusText);
         //throwing an error so that we can catch it in our try catch block
         /*Adding 'new' */
     }
