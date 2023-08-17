@@ -11,3 +11,9 @@ A music service app that gives you access to songs from all over the world.
 - Type `stripe trigger payment_intent.succeeded` (2nd terminal) to test the `stripe listen --forward-to localhost:3000/api/webhooks` and check whether it returns a 200 POST response on the 1st terminal.
 
 - <b> Webhook terminal needs to remain active while in developer mode </b>
+
+![Screenshot (55)](https://github.com/Marx-wrld/Vocalshare/assets/105711066/d5632c54-f44d-4cf0-ab0a-f7cca25bfbbb)
+
+![Screenshot (56)](https://github.com/Marx-wrld/Vocalshare/assets/105711066/de5a38c7-6659-460e-838a-6a58ff517d62)
+
+![Screenshot (57)](https://github.com/Marx-wrld/Vocalshare/assets/105711066/e4e5b9f7-aac5-4b38-970e-54fe245cf12b)
