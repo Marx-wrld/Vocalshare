@@ -13,7 +13,7 @@ import getActiveProductsWithPrices from '@/actions/getActiveProductsWithPrices'
 const font = Figtree({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Vocalshare',
+  title: 'Vocalshare: Your favourite music app',
   description: 'Your favourite music app',
 }
 

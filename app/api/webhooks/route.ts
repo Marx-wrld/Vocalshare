@@ -31,13 +31,14 @@ export async function POST(
     const sig = headers().get('Stripe-Signature')
     //Adding our webhook secret
     const webhookSecret = 
+        process.env.STRIPE_WEBHOOK_SECRET_LIVE ??
         process.env.STRIPE_WEBHOOK_SECRET;
     let event: Stripe.Event;
 
-    try{
+    try {
         //if their is no signature or webhookSecret we break the function otherwise we'll pass an event
         if (!sig || !webhookSecret) return;
-        event = stripe.webhooks.constructEvent(body, sig, webhookSecret)
+        event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
     } //catching the error
     catch (error: any){
         console.log('Error message: ' + error.message);
@@ -81,10 +82,9 @@ export async function POST(
             }
         } catch (error) {
             console.log(error);
-            return new NextResponse('Webhook error', { status: 400});
+            return new NextResponse('Webhook error: "Webhook handler failed. View logs." ', { status: 400});
         }
     }
 
     return NextResponse.json ({ received: true }, { status: 200});
-
-}
+};

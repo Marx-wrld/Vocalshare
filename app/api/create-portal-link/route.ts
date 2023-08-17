@@ -15,16 +15,16 @@ export async function POST(){
 
         const { data: { user } } = await supabase.auth.getUser(); //extracting data anad user from data object
 
-        if (!user) throw new Error('User not found'); //if user is not found, throw an error
+        if (!user) throw Error('User not found'); //if user is not found, throw an error
 
         //else
 
         const customer = await createOrRetrieveCustomer({
             uuid: user?.id || '',
-            email: user?.email || '',
+            email: user?.email || ''
         });
 
-        if (!customer) throw new Error('Customer not found'); //if customer is not found, throw an error
+        if (!customer) throw Error('Customer not found'); //if customer is not found, throw an error
 
         const { url } = await stripe.billingPortal.sessions.create({
             customer,
@@ -34,6 +34,6 @@ export async function POST(){
         return NextResponse.json({ url });
     } catch (error: any) {
         console.log(error);
-        return new  NextResponse('Internal Error', {status: 500 });
+        new  NextResponse('Internal Error', {status: 500 });
     };
 }
