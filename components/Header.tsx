@@ -109,7 +109,8 @@ const Header: React.FC<HeaderProps> = ({
                     justify-center
                     hover:opacity-75
                     transition
-                    ">
+                    "
+              >
               <HiHome className="text-black" size={20} />
             </button>
 
