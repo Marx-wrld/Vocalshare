@@ -1,7 +1,7 @@
 //route that creates our checkout session
 
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { headers, cookies } from "next/headers";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { stripe } from "@/libs/stripe";
 import { getUrl } from "@/libs/helpers";
@@ -24,7 +24,7 @@ export async function POST (
         //creating our customer
         const customer  = await createOrRetrieveCustomer({
             uuid: user?.id || '',
-            email: user?.email || '',
+            email: user?.email || ''
         });
 
         //creating our checkout session
@@ -33,9 +33,9 @@ export async function POST (
             billing_address_collection: "required",
             customer,
             line_items: [
-                {
+            {
                 price: price.id,
-                quantity,
+                quantity
             }
         ],
         mode: 'subscription',

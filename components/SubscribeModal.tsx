@@ -42,7 +42,6 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
 
     const handleCheckout = async (price: Price) => {
         setPriceIdLoading(price.id); //we're setting the priceIdLoading to the price.id
-    
 
         if (!user){
             setPriceIdLoading(undefined);
@@ -102,7 +101,7 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
         )
     }
 
-    //Adding a modal for user is already subscribed
+    //Adding modal for a user already subscribed
     if (subscription){
         content = (
             <div className="text-center">
