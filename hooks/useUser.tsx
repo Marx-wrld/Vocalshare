@@ -99,4 +99,4 @@ export const useUser = () => {
 
     return context; //we're returning the context
 
-}
+};
