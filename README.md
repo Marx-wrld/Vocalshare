@@ -12,8 +12,9 @@ A music service app that gives you access to songs from all over the world.
 
 - <b> Webhook terminal needs to remain active while in developer mode </b>
 
-![Screenshot (55)](https://github.com/Marx-wrld/Vocalshare/assets/105711066/d5632c54-f44d-4cf0-ab0a-f7cca25bfbbb)
 
-![Screenshot (56)](https://github.com/Marx-wrld/Vocalshare/assets/105711066/de5a38c7-6659-460e-838a-6a58ff517d62)
+![Screenshot (58)](https://github.com/Marx-wrld/Vocalshare/assets/105711066/a0795e1f-f6c7-4623-9f52-0884f7e182a2)
 
-![Screenshot (57)](https://github.com/Marx-wrld/Vocalshare/assets/105711066/e4e5b9f7-aac5-4b38-970e-54fe245cf12b)
+![Screenshot (59)](https://github.com/Marx-wrld/Vocalshare/assets/105711066/c7f6e154-7a5a-4260-8ab4-87e2386dfb53)
+
+![Screenshot (60)](https://github.com/Marx-wrld/Vocalshare/assets/105711066/66c66771-430d-4239-b046-6836da7527ac)
