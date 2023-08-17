@@ -20,7 +20,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     children,
     songs
 }) => {
-    
+
     const player = usePlayer();
 
     const pathname = usePathname();
@@ -46,7 +46,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             `
                 flex
                 h-full
-            `, 
+            `,
             player.activeId && "h-[calc(100%-80px)]" //moves the main content above our player
         )}>
             <div className="
@@ -69,11 +69,11 @@ const Sidebar: React.FC<SidebarProps> = ({
                         py-4"
                     >
                         {routes.map((item) => (
-                            <SidebarItem 
+                            <SidebarItem
                                 key={item.label}
                                 {...item}
                             />
-                        ))} 
+                        ))}
                     </div>
                 </Box>
                 <Box className="

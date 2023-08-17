@@ -7,6 +7,6 @@ export const getStripe = () => { //creating a function that will return a promis
         stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '');
     }
     return stripePromise;
-}
+};
 
 //creating helpers to help in creating web hooks
