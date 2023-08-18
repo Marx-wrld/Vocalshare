@@ -188,7 +188,7 @@ const manageSubscriptionStatusChange = async (
     //incase of an error
     if (error) throw error;
 
-    console.log(`Inserted/Updated subscription [${subscription.id} for ${uuid}]`);
+    console.log(`Inserted/Updated subscription [${subscription.id} for user ${uuid}]`);
 
     if (createAction && subscription.default_payment_method && uuid) 
         await copyBillingDetailsToCustomer(

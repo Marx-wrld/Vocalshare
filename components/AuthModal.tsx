@@ -37,7 +37,6 @@ const AuthModal = () => { // we'll use this component to render the login and re
                onChange={onChange}        
         >
            <Auth 
-               theme="dark"
                magicLink={true}
                providers={['google', 'github']} 
                supabaseClient={supabaseClient} 
@@ -52,6 +51,7 @@ const AuthModal = () => { // we'll use this component to render the login and re
                      }
                   }
                }}
+               theme="dark"
            />        
         </Modal>
      );

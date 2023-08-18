@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface InputProps
+export interface InputProps
     extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = forwardRef<HTMLInputElement, InputProps>(({ //forwardRef is a react hook that allows us to pass a ref to a child component

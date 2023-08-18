@@ -16,7 +16,7 @@ export default async function Home() {
           h-full
           w-full
           overflow-hidden
-          overflow-y-hidden
+          overflow-y-auto
           ">
             <Header>
               <div className="mb-2">
@@ -31,6 +31,7 @@ export default async function Home() {
                       grid
                       grid-cols-1
                       sm:grid-cols-2
+                      xl:grid-cols-3
                       2xl:grid-cols-4
                       gap-3
                       mt-4
@@ -58,7 +59,7 @@ export default async function Home() {
                                 text-2xl
                                 font-semibold
                                 ">
-                              Newest songs
+                              Recently Added
                             </h1>
                     </div>
                     <PageContent songs={songs}/>
