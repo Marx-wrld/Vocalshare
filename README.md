@@ -12,6 +12,7 @@ A music service app that gives you access to songs from all over the world.
 - Type `stripe trigger payment_intent.succeeded` (2nd terminal) to test the `stripe listen --forward-to localhost:3000/api/webhooks` and check whether it returns a 200 POST response on the 1st terminal.
 
 - <b> Webhook terminal needs to remain active while in developer mode </b>
+- <b> You should also navigate to customer portal in stripe and activate the test link</b>
 
 ![Screenshot (62)](https://github.com/Marx-wrld/Vocalshare/assets/105711066/5cb2bdb4-b95d-433f-8680-49d4727cf6e2)
 
