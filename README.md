@@ -3,7 +3,10 @@
 
 A music service app that gives you access to songs from all over the world.
 - Built with Typescript, React(radix ui), supabase(PostgreSQL), stripe(for subscription) and Tailwind CSS
-
+- TO run the app:
+  ```
+  npm run dev
+  ```
 **Stripe (Webhooks-API) config: Open two separate terminals(You can use your editors terminal)
 - Visit stripe developer-webhooks then click on the `test in a local environment`.
 - Type `stripe login` in your terminal after installing the stripe-cli in your local environment. (1st terminal)
